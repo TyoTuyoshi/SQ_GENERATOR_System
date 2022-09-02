@@ -154,6 +154,7 @@ if __name__== '__main__':
     print('| リリース 2022/09/02                   |')
     print('|---------------------------------------|')
 
+
     cmd = input()
     #Generate_Random(200)
     #GENERATE_PHASE(10,0,0)
