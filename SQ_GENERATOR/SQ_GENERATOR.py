@@ -3,7 +3,7 @@ from pydub import AudioSegment
 import pydub.playback
 import random
 import numpy as np
-import wave as wv
+import wave
 import tkinter as tk
 import sys,glob,pathlib,os,time
 
@@ -26,7 +26,7 @@ class CUI_UNIQUE:
         print('0%      50%      100%')
         print('+--------+--------+')
         wait_len = '|'+' '*17+'|'
-        wait_time = 0.25
+        wait_time = 0.1
         while(i < 18):
             time.sleep(wait_time)
             #next = wait_len[::-1].replace('0', '1', i)[::-1]
@@ -99,6 +99,7 @@ def PACKAGE_RANDLIST(_size):
 
 min = 0.5
 wavs = list()
+sampling = pow(2,15)
 
 def AUTO_GENERATOR():
     print('[Phase Auto]')
@@ -136,11 +137,11 @@ def AUTO_GENERATOR():
             generate_wav *= AudioSegment.from_file(os.path.abspath(wav))
         wav_data = np.array(generate_wav.get_array_of_samples())
         x = wav_data[::generate_wav.channels]
+        print('{}:max = {} sampling = {}'.format(max(x)>sampling,max(x),sampling))
         plt.plot(x[::10])
         plt.grid()
         plt.show()
-        generate_wav.export("problem_" + str(gf) + ".wav",format='wav',tags={'artist': 'JOUGE', 'album': 'KYOUGI2022', 'comments': 'CHAOS'})
-
+        generate_wav.export("problems/problem_" + str(gf) + ".wav",format='wav',tags={'artist': 'JOUGE', 'album': 'KYOUGI2022', 'comments': 'CHAOS'})
 
 def MODE_RETURN(_cmd):
     if(_cmd=='M' or _cmd=='m' or _cmd =='0'):
@@ -160,8 +161,11 @@ if __name__== '__main__':
     print('| A2号実装予定機能: 詳細オプション指定  |')
     print('| リリース 2022/09/02                   |')
     print('|---------------------------------------|')
-
-    CUI_UNIQUE.PROGRESS_ANIMATION(1)
+    path__ = input()
+    #wave_file = input()
+    wave_file = wave.open(path__,"r") 
+    print(wave_file.getframerate())
+    #CUI_UNIQUE.PROGRESS_ANIMATION(1)
     cmd = input()
     #Generate_Random(200)
     #GENERATE_PHASE(10,0,0)
