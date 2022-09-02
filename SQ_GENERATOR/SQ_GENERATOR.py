@@ -5,36 +5,34 @@ import random
 import numpy as np
 import wave as wv
 import tkinter as tk
-
 import sys,glob,pathlib,os,time
 
-min = 0.5
-wavs = list()
-#wav files
-#cnt = 0
-#gf_cnt = 0
-#ms_cnt = 0
 
-def SHIFT_WAVFILE(wav):
-    begin = random.randint(0,3500)
-    end = random.randint(3500,7000)
-    wav_data = AudioSegment.from_file(wav)[begin:end]
-    return wav_data
+#MAIN CLASS(SQ_EDITOR_PROTO) in other words SQ_GENERATOR
+class SQ_EDITOR_PROTO_A01:
+    def SHIFT_WAVFILE(wav):
+        begin = random.randint(0,3500)
+        end = random.randint(3500,7000)
+        wav_data = AudioSegment.from_file(wav)[begin:end]
+        return wav_data
 
-def PROGRESS_ANIMATION(_cnt,_gf_cnt,_ms_cnt):
-    i = 0
-    print('0%      50%      100%')
-    print('+--------+--------+')
-    wait_len = '|'+' '*17+'|'
-    wait_time = 0.25
-    while(i < 18):
-        time.sleep(wait_time)
-        #next = wait_len[::-1].replace('0', '1', i)[::-1]
-        next = wait_len.replace(' ', '|', i)
-        print(next,'\r',end='')
-        i+=1
-    print('|'*18)
-    print('+--------+--------+')
+#This class(CUI_UNIQUE) is refuse.
+#for example Animation,Design and Layout.
+class CUI_UNIQUE:
+    def PROGRESS_ANIMATION(_prcs):
+        i = 0
+        print('0%      50%      100%')
+        print('+--------+--------+')
+        wait_len = '|'+' '*17+'|'
+        wait_time = 0.25
+        while(i < 18):
+            time.sleep(wait_time)
+            #next = wait_len[::-1].replace('0', '1', i)[::-1]
+            next = wait_len.replace(' ', '|', i)
+            print(next,'\r',end='')
+            i+=1
+        print('|'*18)
+        print('+--------+--------+')
 
 def DATA_IN_WAV():
     print('hell')
@@ -88,20 +86,24 @@ def FIX_WAV():
 #        #SHIFT_WAVFILE()
 
 #return random list(nosame value)
-def Generate_Random(_size):
+#generation function <= access all class
+def PACKAGE_RANDLIST(_size):
     rnd_list = []
     while(len(rnd_list) < _size):
-        #max = wavs[]size
         num = random.randint(0,len(wavs))
         if(not num in rnd_list):
             rnd_list.append(num)
     return rnd_list
 
-def Auto_Generator():
+min = 0.5
+wavs = list()
+
+def AUTO_GENERATOR():
     print('[Phase Auto]')
     print('wav folder pass <- ',end = '')
     dir_ps = input()
     files = pathlib.Path(dir_ps).glob('*')
+
     for file in files:
         if file.is_file():
             wavs.append(file)
@@ -117,7 +119,7 @@ def Auto_Generator():
     #GENERATE_PHASE(cnt,gf_cnt,ms_cnt)
 
     for gf in range(0,gf_cnt,1):
-        rnd_list= Generate_Random(cnt)
+        rnd_list = PACKAGE_RANDLIST(cnt)
         use_wav = list()
         j=0
         for i in rnd_list:
@@ -130,10 +132,6 @@ def Auto_Generator():
         for wav in use_wav:
             generate_wav *= AudioSegment.from_file(os.path.abspath(wav))
         generate_wav.export("problem_" + str(gf) + ".wav",format='wav')
-
-    #print(rnd_list)
-
-    #SHIFT_WAVFILE()
 
 def MODE_RETURN(_cmd):
     if(_cmd=='M' or _cmd=='m' or _cmd =='0'):
@@ -154,12 +152,12 @@ if __name__== '__main__':
     print('| リリース 2022/09/02                   |')
     print('|---------------------------------------|')
 
-
+    CUI_UNIQUE.PROGRESS_ANIMATION(1)
     cmd = input()
     #Generate_Random(200)
     #GENERATE_PHASE(10,0,0)
     if(MODE_RETURN(cmd)==1):
-        Auto_Generator()
+        AUTO_GENERATOR()
     else:
         print('CANCELLED')
 
