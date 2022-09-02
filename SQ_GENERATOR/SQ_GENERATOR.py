@@ -90,7 +90,7 @@ def FIX_WAV():
 def PACKAGE_RANDLIST(_size):
     rnd_list = []
     while(len(rnd_list) < _size):
-        num = random.randint(0,len(wavs))
+        num = random.randint(0,len(wavs)-1)
         if(not num in rnd_list):
             rnd_list.append(num)
     return rnd_list
@@ -122,6 +122,7 @@ def AUTO_GENERATOR():
         rnd_list = PACKAGE_RANDLIST(cnt)
         use_wav = list()
         j=0
+        print('wavs_len = ',len(wavs))
         for i in rnd_list:
             use_wav.append(wavs[i])
             print('L__',use_wav[j].name)
