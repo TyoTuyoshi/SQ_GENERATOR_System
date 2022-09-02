@@ -7,6 +7,8 @@ import wave as wv
 import tkinter as tk
 import sys,glob,pathlib,os,time
 
+import matplotlib.pyplot as plt
+
 
 #MAIN CLASS(SQ_EDITOR_PROTO) in other words SQ_GENERATOR
 class SQ_EDITOR_PROTO_A01:
@@ -132,7 +134,13 @@ def AUTO_GENERATOR():
         use_wav.pop(0)
         for wav in use_wav:
             generate_wav *= AudioSegment.from_file(os.path.abspath(wav))
-        generate_wav.export("problem_" + str(gf) + ".wav",format='wav')
+        wav_data = np.array(generate_wav.get_array_of_samples())
+        x = wav_data[::generate_wav.channels]
+        plt.plot(x[::10])
+        plt.grid()
+        plt.show()
+        generate_wav.export("problem_" + str(gf) + ".wav",format='wav',tags={'artist': 'JOUGE', 'album': 'KYOUGI2022', 'comments': 'CHAOS'})
+
 
 def MODE_RETURN(_cmd):
     if(_cmd=='M' or _cmd=='m' or _cmd =='0'):
