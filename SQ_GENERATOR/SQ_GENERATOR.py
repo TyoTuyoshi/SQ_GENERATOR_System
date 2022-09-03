@@ -23,7 +23,7 @@ class CUI_UNIQUE:
         print('0%      50%      100%')
         print('+--------+--------+')
         wait_len = '|'+' '*17+'|'
-        wait_time = 0.02
+        wait_time = 0.01
         while(i < 18):
             time.sleep(wait_time)
             #next = wait_len[::-1].replace('0', '1', i)[::-1]
@@ -136,21 +136,30 @@ def AMPLIFER_FIX():
     print('[Phase FIX]')
     print('ここではアンプを修正します。修正するwavファイルが入ったフォルダパスを以下に参照してください。')
     print('fix wav folder pass <- ',end = '')
+    #dir_ps = "C:/Users/futur/source/repos/SQ_GENERATOR\SQ_GENERATOR_System/SQ_GENERATOR\AMP_DEBUG\problem_0.wav"
     dir_ps = input()
-    #files = pathlib.Path(dir_ps).glob('*')
     org_wavs = pathlib.Path(dir_ps).glob('*')
+    #wave_file = wave.open(dir_ps,'rb')
+    #print(wave_file.getframerate())
+    print(chr(92))
     for wav in org_wavs:
-        wave_file = wave.open(wav,"r") 
-        print(wave_file.getframerate())
-        #....
-        wav_data = np.array(generate_wav.get_array_of_samples())
-        x = wav_data[::generate_wav.channels]
-        print('{}:max = {} sampling = {}'.format(max(x)>sampling,max(x),sampling))
-        plt.plot(x[::10])
-        plt.grid()
-        plt.show()
-        
+        #wav = repr(wav)
+        #path = wav.replace(chr(92),'/')
+        #print(path)
+        wave_file = wave.open(path,'r')
+        #print(wave_file.getframerate())
+        ##....
+        #x = wave_file.readframes(wave_file.getnframes()) #frameの読み込み
+        #x = np.frombuffer(x, dtype= "int16") #numpy.arrayに変換
+        #print(x)
+        #print(max(x))
 
+        #wav_data = np.array(wave_file.getnframes())
+        #x = wav_data[::generate_wav.channels]
+        #print('{}:max = {} sampling = {}'.format(max(x)>sampling,max(x),sampling))
+        #plt.plot(x[::10])
+        #plt.grid()
+        #plt.show()
 
 def MODE_RETURN(_cmd):
     #if(_cmd=='M' or _cmd=='m' or _cmd =='0'):
