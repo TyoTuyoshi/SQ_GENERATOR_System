@@ -5,7 +5,7 @@ import random
 import numpy as np
 import tkinter as tk
 import matplotlib.pyplot as plt
-import sys,glob,pathlib,os,time,wave
+import sys,glob,pathlib,os,time,wave,soundfile
 
 #MAIN CLASS(SQ_EDITOR_PROTO) in other words SQ_GENERATOR
 class SQ_EDITOR_PROTO:
@@ -32,49 +32,6 @@ class CUI_UNIQUE:
             i+=1
         print('|'*18)
         print('+--------+--------+')
-
-#sign = input()
-#if sign == M or sign == m:
-#    print("L<Manual Mode>")
-#    print("wav data <- ")
-#
-#<!--KOBARA CODE--->
-##音声データの受け取り
-#num = int(input("データの個数を入力＞＞　"))
-#sound = []
-#for i in range(num):
-#    fname = input("ファイル名を入力＞＞　")
-#    sound.append(fname)
-##問題の作成
-#sourceAudio = []
-##exAudio
-#for i in range(num):
-#    start = random.randint(0,3500)
-#    end = random.randint(3500,7000)
-#    pos = random.randint(0,1500)
-#    sourceAudio.append(AudioSegment.from_file(sound[i]))
-#    #play(sourceAudio[i][start:end])
-#    exAudio = sourceAudio[0].overlay(sourceAudio[i][start:end], position = pos)
-##play(exAudio)
-
-#def Manual_Generator():
-#    print(' Phase Manual...')
-#    print(' Data Count(num):',end='')
-#    size = int(input())
-#    wav_list = []
-#    for i in range(0,size,1):
-#        print(' WAV_FILE[{}] : '.format(i),end='')
-#        wav_ps = input()
-#        wav_list.append(wav_ps)
-#    print('  Mixing Mode => Manual(M)-(m)-(0) or Auto(anykey)')
-#    print('command <= ',end = '')
-#    cmd = input()
-#    if(MODE_RETURN(cmd) == 0):
-#        print('Begin time(mill second) : ',end='')
-#        bgsec = int(input())
-#        print('End time  (mill second) : ',end='')
-#        edsec = int(input())
-#        #SHIFT_WAVFILE()
 
 #return random list(nosame value)
 #generation function <= access all class
@@ -124,12 +81,12 @@ def AUTO_GENERATOR():
         use_wav.pop(0)
         for wav in use_wav:
             generate_wav *= AudioSegment.from_file(os.path.abspath(wav))
-        #wav_data = np.array(generate_wav.get_array_of_samples())
-        #x = wav_data[::generate_wav.channels]
-        #print('{}:max = {} sampling = {}'.format(max(x)>sampling,max(x),sampling))
-        #plt.plot(x[::10])
-        #plt.grid()
-        #plt.show()
+        wav_data = np.array(generate_wav.get_array_of_samples())
+        x = wav_data[::generate_wav.channels]
+        print('{}:max = {} sampling = {}'.format(max(x)>sampling,max(x),sampling))
+        plt.plot(x[::100])
+        plt.grid()
+        plt.show()
         generate_wav.export("problems/problem_" + str(gf) + ".wav",format='wav',tags={'artist': 'JOUGE', 'album': 'KYOUGI2022', 'comments': 'CHAOS'})
 
 def AMPLIFER_FIX():
@@ -137,16 +94,28 @@ def AMPLIFER_FIX():
     print('ここではアンプを修正します。修正するwavファイルが入ったフォルダパスを以下に参照してください。')
     print('fix wav folder pass <- ',end = '')
     #dir_ps = "C:/Users/futur/source/repos/SQ_GENERATOR\SQ_GENERATOR_System/SQ_GENERATOR\AMP_DEBUG\problem_0.wav"
-    dir_ps = input()
-    org_wavs = pathlib.Path(dir_ps).glob('*')
+    #dir_ps = input()
+    #org_wavs = pathlib.Path(dir_ps).glob('*')
+    
+    data, fs = soundfile.read('problem_0.wav')
+    #print(fs.samplerate)
+    soundfile.write('output.wav', data, fs, subtype='PCM_16')
+    print('end')
+    #for test in org_wavs:
+    #    print(test)
+    #    data, fs = soundfile.read(test)
+    #    soundfile.write('output'+str(u)+'.wav', data, fs, subtype='PCM_16')
+
     #wave_file = wave.open(dir_ps,'rb')
     #print(wave_file.getframerate())
-    print(chr(92))
-    for wav in org_wavs:
+
+
+    #print(chr(92))
+    #for wav in org_wavs:
         #wav = repr(wav)
         #path = wav.replace(chr(92),'/')
         #print(path)
-        wave_file = wave.open(path,'r')
+        #wave_file = wave.open(path,'r')
         #print(wave_file.getframerate())
         ##....
         #x = wave_file.readframes(wave_file.getnframes()) #frameの読み込み
@@ -172,6 +141,7 @@ def MODE_RETURN(_cmd):
         return -1
 
 if __name__== '__main__':
+    CUI_UNIQUE.PROGRESS_ANIMATION(1)
     print('|---------------------------------------|')
     print('| PROCON2022 SQ_Generator  -Chaos Wav-  |')
     print('| Auto Generate command: (A)-(a)-(1)    |')
@@ -183,18 +153,9 @@ if __name__== '__main__':
     print('| リリース 2022/09/02                   |')
     print('|---------------------------------------|')
 
-    #<AMP DEBUG>
-    #path__ = input()
-    #wave_file = wave.open(path__,"r") 
-    #print(wave_file.getframerate())
-    #</AMP DEBUG>
-
-    CUI_UNIQUE.PROGRESS_ANIMATION(1)
+    print('コマンド? : ',end = '')
     cmd = input()
 
-    #Generate_Random(200)
-    #GENERATE_PHASE(10,0,0)
-    
     if(MODE_RETURN(cmd)==1):
         AUTO_GENERATOR()
 
