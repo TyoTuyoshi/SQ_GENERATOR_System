@@ -35,12 +35,19 @@ class CUI_UNIQUE:
 
 #return random list(nosame value)
 #generation function <= access all class
+#MAKOTONI KUSO DEBUG DESITA.
 def PACKAGE_RANDLIST(_size):
     rnd_list = []
+    audit_list =[]
     while(len(rnd_list) < _size):
-        num = random.randint(0,len(wavs)-1)
-        if(not num in rnd_list):
+        num = random.randint(0,len(wavs) - 1)
+        if(not num in rnd_list and not num % 44 in audit_list):
+            #print("num = {}   num % 44 = {}".format(num,num % 44))
+            audit_list.append(num % 44)
             rnd_list.append(num)
+    rnd_list.sort()
+    #print("len = {}".format(len(wavs)))
+    print(rnd_list)
     return rnd_list
 
 min = 0.5
@@ -141,17 +148,20 @@ def MODE_RETURN(_cmd):
         return -1
 
 if __name__== '__main__':
-    CUI_UNIQUE.PROGRESS_ANIMATION(1)
+    #CUI_UNIQUE.PROGRESS_ANIMATION(1)
     print('|---------------------------------------|')
     print('| PROCON2022 SQ_Generator  -Chaos Wav-  |')
     print('| Auto Generate command: (A)-(a)-(1)    |')
-    print('| Amplifier Fixed command: (F)-(f)-(0)  |')
+    #print('| Amplifier Fixed command: (F)-(f)-(0)  |')
     print('| Cancel command : (any-key command)    |')
     print('|---------------------------------------|')
     print('| プロトA1号 概要：音声完全ランダム生成 |')
     print('| A2号実装予定機能: 詳細オプション指定  |')
     print('| リリース 2022/09/02                   |')
     print('|---------------------------------------|')
+
+    for i in range(0,88,1):
+        print("{} % 44 = {}".format(i,i%44))
 
     print('コマンド? : ',end = '')
     cmd = input()
