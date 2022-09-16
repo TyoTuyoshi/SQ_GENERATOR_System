@@ -21,6 +21,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CUI_UNIQUE.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SQ_EDITOR_PROTO.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SQ_GENERATOR.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
